@@ -1,0 +1,101 @@
+class Task {
+    int taskId;
+    String taskName;
+    String status;
+
+    Task(int id, String name, String status) {
+        this.taskId = id;
+        this.taskName = name;
+        this.status = status;
+    }
+}
+
+class Node {
+    Task data;
+    Node next;
+
+    Node(Task data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class TaskManagementSystem {
+    Node head;
+
+    void addTask(Task task) {
+        Node newNode = new Node(task);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+    }
+
+    Task searchTask(int taskId) {
+        Node current = head;
+        while (current != null) {
+            if (current.data.taskId == taskId) {
+                return current.data;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
+    void displayTasks() {
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.data.taskId + " " + current.data.taskName + " " + current.data.status);
+            current = current.next;
+        }
+    }
+
+    void deleteTask(int taskId) {
+        if (head == null) {
+            return;
+        }
+        if (head.data.taskId == taskId) {
+            head = head.next;
+            return;
+        }
+        Node current = head;
+        while (current.next != null) {
+            if (current.next.data.taskId == taskId) {
+                current.next = current.next.next;
+                return;
+            }
+            current = current.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        TaskManagementSystem taskManager = new TaskManagementSystem();
+
+        // Add some tasks
+        taskManager.addTask(new Task(1, "Task A", "Pending"));
+        taskManager.addTask(new Task(2, "Task B", "In Progress"));
+        taskManager.addTask(new Task(3, "Task C", "Completed"));
+
+        // Search for a task
+        Task foundTask = taskManager.searchTask(2);
+        if (foundTask != null) {
+            System.out.println("Found task: " + foundTask.taskName);
+        } else {
+            System.out.println("Task not found");
+        }
+
+        // Display all tasks
+        taskManager.displayTasks();
+
+        // Delete a task
+        taskManager.deleteTask(2);
+
+        // Display tasks after deletion
+        taskManager.displayTasks();
+    }
+}
