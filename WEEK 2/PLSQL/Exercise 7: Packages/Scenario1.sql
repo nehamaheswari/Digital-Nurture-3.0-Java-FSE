@@ -45,4 +45,16 @@ CREATE OR REPLACE PACKAGE BODY CustomerManagement IS
         p_customer_id IN NUMBER
     ) RETURN NUMBER IS
         v_balance NUMBER;
+    BEGIN
+        SELECT Balance INTO v_balance
+        FROM Customers
+        WHERE CustomerID = p_customer_id;        
+        RETURN v_balance;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RETURN NULL; -- Handle case where customer does not exist
+    END GetCustomerBalance;
+END CustomerManagement;
+/
+
 
