@@ -20,4 +20,4 @@ BEGIN
     CLOSE cur;
 END //
 
-DELIMITER ;
+
